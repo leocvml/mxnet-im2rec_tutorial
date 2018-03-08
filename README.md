@@ -1,4 +1,4 @@
-# mxnet data IO   im2rec tutorial**
+# mxnet data IO   im2rec tutorial #
 
 
 **this simple tutorial will introduce how to use im2rec for mx.image.ImageIter and ImageDetIter and how to use im2rec for COCO DataSet**
@@ -332,7 +332,7 @@ with open('ownSet.lst', 'w+') as f:
 
 ```
 you will see your .lst like this format
- ![](https://i.imgur.com/wvL03FG.png)
+ ![](https://github.com/leocvml/mxnet-im2rec_tutorial/blob/master/pic/lst.PNG)
 
  
 
@@ -400,4 +400,4 @@ for i in range(32):
 
 ```
 result
-![](https://i.imgur.com/SflT6ug.png)
+![](https://github.com/leocvml/mxnet-im2rec_tutorial/blob/master/pic/boundingboxresult.PNG)
