@@ -10,7 +10,7 @@ https://github.com/apache/incubator-mxnet/blob/master/tools/im2rec.py
 **step 1. you should make a .lst file** 
 run in terminal
 ```
-python im2rec --list testlst Dataset
+python im2rec.py --list testlst Dataset
 
 --list     => make .lst file 
               you should set True when your folder didnt have any .lst file
@@ -44,7 +44,7 @@ io.show()
 ```
 **step 2. make .rec file**
 ```
-python im2rec testrec Dataset
+python im2rec.py testrec Dataset
 
 testrec     => name of your .rec  name what you want
 Dataset     => your image dataset folder
