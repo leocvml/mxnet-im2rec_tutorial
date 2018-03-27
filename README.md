@@ -1,8 +1,8 @@
 # mxnet data IO   im2rec tutorial #
 
 
-**this simple tutorial will introduce how to use im2rec for mx.image.ImageIter and ImageDetIter and how to use im2rec for COCO DataSet**
 
+**this simple tutorial will introduce how to use im2rec for mx.image.ImageIter and ImageDetIter and how to use im2rec for COCO DataSet**
 ok let's start but prepare your im2rec first
 https://github.com/apache/incubator-mxnet/blob/master/tools/im2rec.py
 
@@ -401,3 +401,93 @@ for i in range(32):
 ```
 result
 ![](https://github.com/leocvml/mxnet-im2rec_tutorial/blob/master/pic/boundingboxresult.PNG)
+
+## make very very example for multilabeling ##
+will generate dataset.lst
+
+```python
+with open('dataset.lst', 'w+') as f:
+    for i in range(12):
+        f.write(
+            str(i) + '\t' +
+            # idx
+            str(4) + '\t' + str(5) + '\t' +
+            # width of header and width of each object.
+            str(256) + '\t' + str(256) + '\t' +
+            # (width, height)
+            str(1) + '\t' +
+            # class
+            str((i / 15)) + '\t' + str((i / 15)) + '\t' + str(((i + 3) / 15)) + '\t' +str(((i + 3) / 15)) + '\t' +
+
+            str(2) + '\t' +
+            # class
+            str((i / 50)) + '\t' + str((i / 50)) + '\t' + str(((i + 3) / 50)) + '\t' + str(((i + 3) / 50)) + '\t' +
+
+            str(3) + '\t' +
+            # class
+            str((i / 100)) + '\t' + str((i / 100)) + '\t' + str(((i + 3) / 100)) + '\t' + str(((i + 3) / 100)) + '\t' +
+            # xmin, ymin, xmax, ymax
+           str(i) + '.jpg\n'
+        )
+
+```
+check dataset.lst
+![](https://github.com/leocvml/mxnet-im2rec_tutorial/blob/master/pic/multilabel.PNG)
+## step2: use im2rec ##
+```
+python im2rec.py --pack-label dataset.lst data
+
+```
+
+## step3: use ImageDetIter show our multilabel ##
+```python
+
+import mxnet as mx
+shape = 800
+train_iter = mx.image.ImageDetIter(
+    batch_size=32,
+    data_shape=(3, shape, shape),
+    path_imgrec='dataset.rec',
+    path_imgidx='dataset.idx',
+    shuffle=False,
+
+)  # you can aug your data in ImageDetIter
+
+import matplotlib.pyplot as plt
+def box_to_rect(box, color, linewidth=3):
+
+    box = box.asnumpy()
+    print((box[0], box[1]), box[2] - box[0], box[3]-box[1])
+    return plt.Rectangle(
+        (box[0], box[1]), box[2] - box[0], box[3]-box[1],
+        fill=False, edgecolor=color, linewidth=linewidth
+    )
+
+
+train_iter.reset()
+
+batch = train_iter.next()
+
+img, labels = batch.data[0], batch.label[0]
+
+print(labels.shape)
+
+
+img = img.transpose((0,2,3,1))
+img = img.clip(0,255).asnumpy()/255
+
+
+for i in range(12):
+    _, fig = plt.subplots()
+    plt.imshow(img[i])
+
+
+    color_list = ['red','blue','black']
+    for k in range(labels[i].shape[0]):  # how many object in your label
+        rect = box_to_rect(labels[i][k][1:5]*shape,color_list[k],2)
+        fig.add_patch(rect)
+    fig.axes.get_xaxis().set_visible(False)
+```
+![](https://github.com/leocvml/mxnet-im2rec_tutorial/blob/master/multilabel_ressult.PNG)
+
+**if you feel useful pls give a star!!!**
