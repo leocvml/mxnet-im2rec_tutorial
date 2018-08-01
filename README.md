@@ -44,9 +44,9 @@ io.show()
 ```
 **step 2. make .rec file**
 ```
-python im2rec.py testrec Dataset
+python im2rec.py testlst.lst Dataset
 
-testrec     => name of your .rec  name what you want
+testlst     => name of your .rec  name what you want
 Dataset     => your image dataset folder
 ```
 **use .rec for imageiter**
