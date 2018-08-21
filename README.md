@@ -1,7 +1,9 @@
 # mxnet data IO   im2rec tutorial #
 
-
-
+**update 2018/8/21**  
+**Prepare custom datasets for gluonCV and mxnet**  
+https://gluon-cv.mxnet.io/build/examples_datasets/detection_custom.html  
+---------------------------------------------------------------------------------------------------
 **this simple tutorial will introduce how to use im2rec for mx.image.ImageIter and ImageDetIter and how to use im2rec for COCO DataSet**
 ok let's start but prepare your im2rec first
 https://github.com/apache/incubator-mxnet/blob/master/tools/im2rec.py
